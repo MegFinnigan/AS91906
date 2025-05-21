@@ -27,6 +27,13 @@ public class Cards
         Card c1 = new Card("Charizard", 200);
         Card c2 = new Card("Pikachu", 1000, ""); // how to put an image
         Card c3 = new Card("Snivy", 400, "");
+        
     }
 
+    /**
+     * 
+     */
+    public void addCard(String name, double cardPrice, String ImgFileName){
+        this.collection.put(name, new Card(name, cardPrice, ImgFileName)); // should there be an id instead of name
+    }
 }
