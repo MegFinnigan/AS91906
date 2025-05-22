@@ -21,34 +21,52 @@ public class GUI
         
         UI.initialise();
         UI.addButton("Add card", this::addCard);
-        //UI.addButton("Find card", this::findCard);
+        UI.addButton("Find card", this::findCard);
+        UI.addButton("Show all cards", this::displayCards);
+        UI.addButton("Hide all cards", this::hideCard);
     }
     
     /**
-     * Add a card to the collection
+     * Add a card to the collection 
      */
-    public void addCard(){ // should I find a more discriptive name diff to addcard
-        double cardPrice; // should this be in the do block
+    public void addCard(){
+        this.cards.addCard(); // should the methods have different names to eachother
+        //this.displayCards(); // is it fine to just have it not show up until after maybe just print the one card this can be a function with find aswell 
+    }
+    
+    /**
+     * Calls the method findCard in Cards
+     */
+    public void findCard(){
+        this.cards.findCard();
+    }
+    
+    /**
+     * 
+     */
+    public void hideCard(){
+        UI.clearGraphics();
+    }
+    
+    /**
+     * 
+     */
+    public void displayCards(){
+        UI.clearGraphics();
+        int x = 50; // Image start position on the x axis
+        int y = 50; // Image start position on the y axis
         
-        String name = UI.askString("Enter the Pokemon name: "); //Force an answer
+        final double WIDTH = 150;
+        final double HEIGHT = 200;
         
-        do {
-            cardPrice = UI.askDouble("Enter the pokemon card value: ");
+        for (Card card: cards.collection.values()){ //? getter 
+            UI.drawImage(card.getImage(), x, y, WIDTH, HEIGHT);
+            UI.drawString("Name: " + card.getName(), x, y + HEIGHT + 20);
+            UI.drawString("Price: " + card.getCardPrice(), x, y + HEIGHT + 40);
+            x += WIDTH + 30;
             
-            if (cardPrice > 0){
-                UI.println("Added");
-            }
-            else if (cardPrice < 0){  // should this include 0
-                UI.println("Must be greater than 0");
-            }
-            else{
-                UI.println("Must be a number");
-            }
-            
-        }while (0 > cardPrice);
-        
-        String imgFileName = UIFileChooser.open("Choose the image file: ");
-        this.cards.addCard(name, cardPrice, imgFileName);
+        }
+    
     
     }
     

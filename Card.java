@@ -39,21 +39,6 @@ public class Card
     }
     
     /**
-     * Display the image on GUI
-     */
-    public void displayImage()
-    {
-        int locX = 100; // Image start position on the x axis
-        int locY = 100; // Image start position on the y axis
-        
-        final double WIDTH = 250;
-        final double HEIGHT = 300;
-        
-        UI.drawImage(this.image, locX, locY, WIDTH, HEIGHT);
-    }
-    
-    
-    /**
      * Getter for name
      * @return returns the String name of the pokemon
      */
@@ -69,5 +54,13 @@ public class Card
     public double getCardPrice()
     {
         return this.cardPrice;
+    }
+    
+    /**
+     * Getter for the image
+     * @return returns the String image file name
+     */
+    public String getImage(){
+        return this.image;
     }
 }

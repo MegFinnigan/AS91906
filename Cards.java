@@ -12,7 +12,7 @@ import ecs100.*;
 public class Cards
 {
     // fields 
-    private HashMap<String, Card> collection; // would the name be the key?
+    public HashMap<String, Card> collection; // How can I make this private!!!
     private Scanner scanner;
     
     /**
@@ -22,18 +22,71 @@ public class Cards
     {
         // initialise instance variables
         collection = new HashMap<String, Card>();
-        scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in); //?
         
-        Card c1 = new Card("Charizard", 200);
-        Card c2 = new Card("Pikachu", 1000, ""); // how to put an image
-        Card c3 = new Card("Snivy", 400, "");
-        
+        // add cards to the collection
+        this.collection.put("Charizard", new Card("Charizard", 200, "Charizard.jpg"));
+        this.collection.put("Pikachu", new Card("Pikachu", 1000, "Pikachu.png"));
+        this.collection.put("Snivy", new Card("Snivy", 400, "Snivy.jpg")); 
     }
 
     /**
      * 
      */
-    public void addCard(String name, double cardPrice, String ImgFileName){
-        this.collection.put(name, new Card(name, cardPrice, ImgFileName)); // should there be an id instead of name
+    public void addCard(){
+
+        double cardPrice;
+        
+        //Force an answer and make it so they print a statmemt saying they are already there instead of saying added
+        String name = UI.askString("Enter the Pokemon name: ");
+        
+        do {
+            cardPrice = UI.askDouble("Enter the pokemon card value: ");
+            
+            if (cardPrice > 0){
+                UI.println("Added");
+            }
+            else if (cardPrice <= 0){
+                UI.println("Must be greater than 0");
+            }
+            else{
+                UI.println("Must be a number");
+            }
+            
+        }while (0 >= cardPrice);
+        
+        String imgFileName = UIFileChooser.open("Choose the image file: ");
+        
+        this.collection.put(name, new Card(name, cardPrice, imgFileName)); 
+    
+    }
+    
+    /**
+     * 
+     */
+    public void findCard(){
+        double cardPrice; // should this be at the top of the page
+        String image;
+        
+        String name = UI.askString("Enter the name of the Pokemon card: ");
+        
+        Card card = this.collection.get(name);
+        
+        if (card == null){
+            UI.println("That card is not in your collection!");
+        }else{
+            name = card.getName();
+            cardPrice = card.getCardPrice();
+            image = card.getImage();
+            // is this okay or should there be a variable should I use get in the displau functiom
+            display(name, cardPrice, image);
+        }
+    }
+    
+    // clear one card when it is tapped 
+    
+    // how will I display the graphics ? rows of 4
+    public void display(String name, double cardPrice, String image){
+        UI.println(name + " " + cardPrice + " " + image);
     }
 }
