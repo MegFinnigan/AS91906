@@ -12,7 +12,7 @@ public class Card
     private String name;
     private double cardPrice;
     private String image;
-    static final String DEFAULT_IMAGE = "card.jpeg";
+    static final String DEFAULT_IMAGE = "default.png";
 
     /**
      * Constructor for objects of class Card

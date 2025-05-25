@@ -8,8 +8,12 @@ import ecs100.*;
 public class GUI
 {
     // Fields
-    private Cards cards;
+    private Cards cards; // ?
     private Card card; 
+    
+    private static int x = 50; //
+    private static int y = 50; //
+    private Card hiddenCard = null;
 
     /**
      * Constructor for objects of class GUI
@@ -24,6 +28,9 @@ public class GUI
         UI.addButton("Find card", this::findCard);
         UI.addButton("Show all cards", this::displayCards);
         UI.addButton("Hide all cards", this::hideCard);
+        
+        UI.setMouseListener(this::doMouse);
+        
     }
     
     /**
@@ -39,6 +46,7 @@ public class GUI
      */
     public void findCard(){
         this.cards.findCard();
+        
     }
     
     /**
@@ -46,28 +54,63 @@ public class GUI
      */
     public void hideCard(){
         UI.clearGraphics();
+        x = 50; //  
     }
     
     /**
-     * 
+     * Draws all the cards in collections
      */
     public void displayCards(){
         UI.clearGraphics();
-        int x = 50; // Image start position on the x axis
-        int y = 50; // Image start position on the y axis
-        
-        final double WIDTH = 150;
-        final double HEIGHT = 200;
-        
-        for (Card card: cards.collection.values()){ //? getter 
-            UI.drawImage(card.getImage(), x, y, WIDTH, HEIGHT);
-            UI.drawString("Name: " + card.getName(), x, y + HEIGHT + 20);
-            UI.drawString("Price: " + card.getCardPrice(), x, y + HEIGHT + 40);
-            x += WIDTH + 30;
+        x = 50;
+        for (Card card: cards.collection.values()){ // make a getter 
+            if (card == hiddenCard){
+                continue;
+            }
             
+            drawCard(card);
         }
-    
-    
+        hiddenCard = null; // this resets it so if all the cards are printed again it isnt skipped
     }
     
+    /**
+     * Draws a card
+     */
+    public static void drawCard(Card card){ // is it okay that this is static
+        final int WIDTH = 150;
+        final int HEIGHT = 200;
+        
+        UI.drawImage(card.getImage(), x, y, WIDTH, HEIGHT);
+        UI.drawString("Name: " + card.getName(), x, y + HEIGHT + 20);
+        UI.drawString("Price: " + card.getCardPrice(), x, y + HEIGHT + 40);
+        x += 150 + 30; // 150 should be width declare it as field? 
+    }
+    
+    /**
+     * Prints out the image and details for a single card.
+     */
+    public static void drawSingleCard(Card card){
+        UI.clearGraphics();
+        x = 50; // set x-axis back to 50px
+        drawCard(card);
+    }
+    
+    
+    public void doMouse(String action, double mouseX, double mouseY){
+        if (action.equals("clicked")){
+            final int WIDTH = 150;
+            final int HEIGHT = 200;
+            x = 50;
+            for (Card card: cards.collection.values()){
+                if (mouseX >= x && mouseX <= x + WIDTH && mouseY >= y && mouseY <= y + HEIGHT){
+                    hiddenCard = card;
+                    displayCards();
+                    return;
+                }
+                x += WIDTH + 30;
+            }
+    
+        } // I can always just cover it but then there would be gaps 
+    
+    }
 }

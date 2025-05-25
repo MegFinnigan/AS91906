@@ -57,8 +57,10 @@ public class Cards
         
         String imgFileName = UIFileChooser.open("Choose the image file: ");
         
-        this.collection.put(name, new Card(name, cardPrice, imgFileName)); 
-    
+        Card card = new Card(name, cardPrice, imgFileName);
+        
+        this.collection.put(name, card); 
+        GUI.drawCard(card);
     }
     
     /**
@@ -78,15 +80,10 @@ public class Cards
             name = card.getName();
             cardPrice = card.getCardPrice();
             image = card.getImage();
-            // is this okay or should there be a variable should I use get in the displau functiom
-            display(name, cardPrice, image);
+            // create a method in GUI and pass in as param
+            GUI.drawSingleCard(card);
         }
     }
     
     // clear one card when it is tapped 
-    
-    // how will I display the graphics ? rows of 4
-    public void display(String name, double cardPrice, String image){
-        UI.println(name + " " + cardPrice + " " + image);
-    }
 }
