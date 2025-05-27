@@ -33,7 +33,7 @@ public class Cards
     /**
      * 
      */
-    public void addCard(){
+    public Card addCard(){
 
         double cardPrice;
         
@@ -60,13 +60,14 @@ public class Cards
         Card card = new Card(name, cardPrice, imgFileName);
         
         this.collection.put(name, card); 
-        GUI.drawCard(card);
+        
+        return card;
     }
     
     /**
      * 
      */
-    public void findCard(){
+    public Card findCard(){
         double cardPrice; // should this be at the top of the page
         String image;
         
@@ -81,8 +82,10 @@ public class Cards
             cardPrice = card.getCardPrice();
             image = card.getImage();
             // create a method in GUI and pass in as param
-            GUI.drawSingleCard(card);
+            GUI.drawSingleCard(card); //should this be in GUI
+            
         }
+        return card; // does it matter if it returns a card that doesnt exist, 
     }
     
     // clear one card when it is tapped 
