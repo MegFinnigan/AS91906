@@ -34,6 +34,11 @@ public class GUI
         
         hasPrintedCards = false;
         
+        for (Card card: cards.collection.values()){
+            hiddenCards.add(card);
+        }
+        
+        
     }
     
     /**
@@ -42,6 +47,10 @@ public class GUI
     public void addCard(){
         Card card = this.cards.addCard(); // should the methods have different names to eachother
         // change the variable name
+        if (card == null){
+            return;
+        }
+        
         if (hasPrintedCards == false){
             drawSingleCard(card);
         }else{
@@ -61,6 +70,9 @@ public class GUI
                 hiddenCards.add(card);
             }
             }
+        if (hiddenCards.contains(foundCard)){
+            hiddenCards.remove(foundCard);
+        }
         
     }
     
@@ -79,7 +91,6 @@ public class GUI
     }
     
     
-    
     /**
      * Draws all the cards in collections
      */
@@ -87,12 +98,23 @@ public class GUI
         UI.clearGraphics();
         int x = 50;
         int y = 50;
+        int cardsRow = 4;
+        int cardCount = 0;
         for (Card card: cards.collection.values()){ // make a getter 
             if (hiddenCards.contains(card)){
                 continue;
             }else{
                 drawCard(card, x, y);
-                x += 150 + 30; // 150 should be width declare it as field?
+                cardCount += 1;
+            
+                if (cardCount % cardsRow == 0){ // come up with a name for the variable
+                    x = 50;
+                    y = 200 + 110; // height and space
+                
+                }else{
+                    x += 150 + 30; // 150 should be width declare it as field?
+                }
+                
             }
             
         }
@@ -128,24 +150,29 @@ public class GUI
         int y = 50;
         final int WIDTH = 150;
         final int HEIGHT = 200;
+        int cardsRow = 4;
+        int cardCount = 0;
         
         if (action.equals("clicked")){
-            
             for (Card card: cards.collection.values()){
                 if (hiddenCards.contains(card)){
                     continue;
                 }
-                
-                
                 
                 if (mouseX >= x && mouseX <= x + WIDTH && mouseY >= y && mouseY <= y + HEIGHT){
                     hiddenCards.add(card);
                     displayCards();
                     return;
                 }
-                x += WIDTH + 30;
+                
+                cardCount += 1;
+                if (cardCount % cardsRow == 0){ // come up with a name for the variable
+                    x = 50;
+                    y = 200 + 110; // height and space
+                }else{
+                    x += WIDTH + 30;
                 }
             }
         } // I can always just cover it but then there would be gaps
     }
-
+}
