@@ -1,6 +1,6 @@
 
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Scanner; // ?
 import ecs100.*;
 
 /**
@@ -15,6 +15,7 @@ public class Cards
     // fields 
     public HashMap<String, Card> collection; // How can I make this private!!!
     private Scanner scanner;
+    final int MAX_STR_LENGTH = 15; // should this be in the constructor
     
     /**
      * Constructor for objects of class Cards
@@ -39,6 +40,7 @@ public class Cards
 
         double cardPrice;
         String name;
+        String nameOutput;
         
         do {
             name = UI.askString("Enter the Pokemon name: ").trim();
@@ -47,35 +49,48 @@ public class Cards
                 UI.println("The name cannot be empty");
             }
             
-            else if (collection.containsKey(name)){
-                UI.println("This Pokemon card already exists");
-                return null;
+            // source the website I got this from
+            else if (name.matches(".*\\d.*")){
+                UI.println("The name cannot contain numbers");
             }
             
-        }while (name.isEmpty());
+            else if (name.length() > MAX_STR_LENGTH){
+                UI.println("The name must be less than " + MAX_STR_LENGTH + " characters");
+            }
+            
+            // There is an error if I normalise the input when they put ana empty string
+            else{
+                // Make sure the first letter is capatilised. normalise the string
+                nameOutput = name.substring(0, 1).toUpperCase() + name.substring(1);
         
+                if (collection.containsKey(nameOutput)){
+                    UI.println("This Pokemon card already exists");
+                    return null;
+                }
+            
+                else{
+                    break;
+                }
+            }
+        }while (true);
         
+
         do {
             cardPrice = UI.askDouble("Enter the pokemon card value: ");
             
-            if (cardPrice > 0){
-                //UI.println("Added");
-            }
-            else if (cardPrice <= 0){
-                UI.println("Must be greater than 0");
-            }
-            else{
-                UI.println("Must be a number");
+            // should I do constants 
+            if (cardPrice < 1 || cardPrice > 100000){
+                UI.println("The value must be between 1 and 100,000");
             }
             
-        }while (0 >= cardPrice);
+        }while (cardPrice < 1 || cardPrice > 100000);
         
         String imgFileName = UIFileChooser.open("Choose the image file: ");
         UI.println("Added");
         
-        Card card = new Card(name, cardPrice, imgFileName);
+        Card card = new Card(nameOutput, cardPrice, imgFileName);
         
-        this.collection.put(name, card); 
+        this.collection.put(nameOutput, card); 
         
         return card;
     }
@@ -86,10 +101,36 @@ public class Cards
     public Card findCard(){
         double cardPrice; // should this be at the top of the page
         String image;
+        String name; // declare this at the start
+        String nameOutput;
         
-        String name = UI.askString("Enter the name of the Pokemon card: ");
         
-        Card card = this.collection.get(name);
+        // make another method to reuse this code as its repetitve
+        do {
+            name = UI.askString("Enter the Pokemon name: ").trim();
+            
+            if (name.isEmpty()){
+                UI.println("The name cannot be empty");
+            }
+            
+            // source the website I got this from
+            else if (name.matches(".*\\d.*")){
+                UI.println("The name cannot contain numbers");
+            }
+            
+            else if (name.length() > MAX_STR_LENGTH){
+                UI.println("The name must be less than " + MAX_STR_LENGTH + " characters");
+            }
+            
+            // There is an error if I normalise the input when they put ana empty string
+            else{
+                // Make sure the first letter is capatilised. normalise the string
+                nameOutput = name.substring(0, 1).toUpperCase() + name.substring(1);
+                break;
+            }
+        }while (true);
+        
+        Card card = this.collection.get(nameOutput);
         
         if (card == null){
             UI.println("That card is not in your collection!");
