@@ -1,11 +1,12 @@
-
 import java.util.HashMap;
-import java.util.Scanner; // ?
 import ecs100.*;
 
 /**
- * Holds a collection of pokemon cards in a hashmap
- * Allows a user to add a card, find a card, and hide a cards details
+ * This class manages a collection of Pokemon cards using a HashMap 'collection'.
+ * 
+ * It allows the user to add new cards to the collection and find and get details about a specific card.
+ * The cards are stored using the pokemon's name as the key.
+ * Checks that the names are valid and the values are within the range. 
  *
  * @author Meg Finnigan
  * @version 1.0
@@ -13,20 +14,22 @@ import ecs100.*;
 public class Cards
 {
     // fields 
-    public HashMap<String, Card> collection; // How can I make this private!!!
-    private Scanner scanner;
-    final int MAX_STR_LENGTH = 15; // should this be in the constructor
+    // Stores the collection of Pokemon cards, with the Pokemon name as the key
+    public HashMap<String, Card> collection;
+    // The maximum string length for the card names
+    final int MAX_STR_LENGTH = 15;
     
     /**
      * Constructor for objects of class Cards
+     * 
+     * Initialises the card collection and adds three Pokemon cards to it. 
      */
     public Cards()
     {
-        // initialise instance variables
+        // Initialise instance variables
         collection = new HashMap<String, Card>();
-        //scanner = new Scanner(System.in); //?
         
-        // add cards to the collection
+        // Add cards to the collection for testing 
         this.collection.put("Charizard", new Card("Charizard", 200, "Charizard.jpg"));
         this.collection.put("Pikachu", new Card("Pikachu", 1000, "Pikachu.png"));
         this.collection.put("Snivy", new Card("Snivy", 400, "Snivy.jpg")); 
